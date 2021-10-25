@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { MongoRepository } from 'typeorm';
 import { ObjectID } from 'mongodb';
 
-import { User } from './users.entity';
-import { IUser } from './users.interface';
+import { User } from '../../entity/users.entity';
+import { IUser } from '../../interface/users.interface';
 
 @Injectable()
 export class UsersService {
