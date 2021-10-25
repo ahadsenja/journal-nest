@@ -19,7 +19,7 @@ export class UsersService {
   }
 
   async findOne(id: string): Promise<User> {
-    const user = ObjectID.isValid(id) && (this.userRepository.findOne(id));
+    const user = ObjectID.isValid(id) && this.userRepository.findOne(id);
     if (!user) {
       throw new NotFoundException();
     }
@@ -29,6 +29,26 @@ export class UsersService {
 
   async create(createUser: IUser): Promise<User> {
     const user = this.userRepository.save(createUser);
+    return user;
+  }
+
+  async update(id: string, updateUser: IUser): Promise<User> {
+    const user = ObjectID.isValid(id) && this.userRepository.findOne(id);
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    this.userRepository.update(id, updateUser);
+    return user;
+  }
+
+  async delete(id: string): Promise<User> {
+    const user = ObjectID.isValid(id) && this.userRepository.findOne(id);
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    this.userRepository.delete(id);
     return user;
   }
 }
