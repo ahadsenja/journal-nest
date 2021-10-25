@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, NotFoundException, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put } from '@nestjs/common';
 
 import { User } from './users.entity';
 import { UserDTO } from './users.dto';
@@ -16,20 +16,31 @@ export class UsersController {
   @HttpCode(200)
   async getAll(): Promise<User[]> {
     const result = await this.userService.findAll();
-    console.log(result)
     return result;
   }
 
   @Get(':id')
   async getById(@Param('id') id: string): Promise<User> {
     const user = await this.userService.findOne(id);
-    console.log('ini adalah id dari user controller: ' + id);
+    if (!user) {
+      throw new NotFoundException();
+    }
     return user;
   }
 
-  @Post('/create')
+  @Post()
   async createUser(@Body() createUser: UserDTO): Promise<User> {
     return await this.userService.create(createUser);
+  }
+
+  @Put(':id')
+  async updateUser(@Param('id') id: string, @Body() userDTO: UserDTO): Promise<User> {
+    return await this.userService.update(id, userDTO);
+  }
+
+  @Delete(':id')
+  async deleteUser(@Param('id') id: string): Promise<User> {
+    return await this.userService.delete(id);
   }
 
 }
