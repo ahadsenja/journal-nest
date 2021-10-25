@@ -1,9 +1,8 @@
 import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put } from '@nestjs/common';
 
-import { User } from './users.entity';
-import { UserDTO } from './users.dto';
+import { User } from '../../entity/users.entity';
+import { UserDTO } from '../../dto/users.dto';
 import { UsersService } from './users.service';
-import { ObjectID } from 'mongodb';
 
 @Controller('users')
 export class UsersController {
