@@ -1,4 +1,11 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 
 @Controller('journals')
-export class JournalsController {}
+export class JournalsController {
+
+  @Get()
+  findAll() {
+    return 'This is journals endpoint';
+  }
+
+}
