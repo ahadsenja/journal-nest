@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { JournalsController } from './journals.controller';
-
 import { JournalsService } from './journals.service';
+import { Journal } from 'src/entity/journal.entity';
 
 @Module({
+  imports: [TypeOrmModule.forFeature([Journal])],
   controllers: [JournalsController],
   providers: [JournalsService]
 })
