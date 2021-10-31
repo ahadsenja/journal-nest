@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put, UseGuards } from '@nestjs/common';
 
 import { User } from '../../entity/users.entity';
 import { UserDTO } from '../../dto/users.dto';
 import { UsersService } from './users.service';
+import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
 
 @Controller('users')
 export class UsersController {
@@ -29,17 +30,18 @@ export class UsersController {
     return user;
   }
 
-  // Find by email
-  @Get(':email')
-  async getByEmail(@Param('email') email: string) {
-    const user = await this.userService.findByEmail(email);
+  // Find by username
+  @Get()
+  async getByEmail(username: string) {
+    const user = await this.userService.findOneByUsername(username);
     return user;
   }
 
   // Create new user
   @Post()
   async createUser(@Body() createUser: UserDTO): Promise<User> {
-    return await this.userService.create(createUser);
+    const user = await this.userService.create(createUser);
+    return user;
   }
 
   // Update user

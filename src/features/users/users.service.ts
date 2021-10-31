@@ -5,6 +5,7 @@ import { ObjectID } from 'mongodb';
 
 import { User } from '../../entity/users.entity';
 import { IUser } from '../../interface/users.interface';
+import { UserDTO } from 'src/dto/users.dto';
 
 @Injectable()
 export class UsersService {
@@ -25,23 +26,19 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException();
     }
+
     return user;
   }
 
-  // Find user by email
-  async findByEmail(email: string) {
-    const user = this.userRepository.findOne({ email });
-    if (user) {
-      return user
-    }
-
-    throw new NotFoundException();
+  // Find user by username
+  async findOneByUsername(username: string): Promise<User> {
+    const user = this.userRepository.findOne({ username });
+    return user;
   }
 
   // Create new user
   async create(createUser: IUser): Promise<User> {
-    const user = this.userRepository.save(createUser);
-    return user;
+    return this.userRepository.save(createUser);
   }
 
   // Update user
