@@ -3,7 +3,6 @@ import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post
 import { User } from '../../entity/users.entity';
 import { UserDTO } from '../../dto/users.dto';
 import { UsersService } from './users.service';
-import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
 
 @Controller('users')
 export class UsersController {
@@ -30,10 +29,10 @@ export class UsersController {
     return user;
   }
 
-  // Find by username
+  // Find by email
   @Get()
-  async getByEmail(username: string) {
-    const user = await this.userService.findOneByUsername(username);
+  async getByEmail(email: string) {
+    const user = await this.userService.findOneByCondition(email);
     return user;
   }
 
