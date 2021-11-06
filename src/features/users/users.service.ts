@@ -1,11 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { getConnection, getRepository, MongoRepository } from 'typeorm';
+import { MongoRepository } from 'typeorm';
 import { ObjectID } from 'mongodb';
 
 import { User } from '../../entity/users.entity';
 import { IUser } from '../../interface/users.interface';
-import { UserDTO } from 'src/dto/users.dto';
 
 @Injectable()
 export class UsersService {
@@ -30,9 +29,9 @@ export class UsersService {
     return user;
   }
 
-  // Find user by username
-  async findOneByUsername(username: string): Promise<User> {
-    const user = this.userRepository.findOne({ username });
+  // Find user by condition
+  async findOneByCondition(condition: any): Promise<User> {
+    const user = this.userRepository.findOne(condition);
     return user;
   }
 
