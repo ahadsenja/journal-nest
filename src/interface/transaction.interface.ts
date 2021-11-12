@@ -5,4 +5,5 @@ export class ITransaction {
   debit: number;
   credit: number;
   balance: number;
+  journalId: string;
 }
