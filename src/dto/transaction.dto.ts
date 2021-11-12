@@ -5,4 +5,5 @@ export class TransactionDTO {
   debit: number;
   credit: number;
   balance: number;
+  journalId: string;
 }
