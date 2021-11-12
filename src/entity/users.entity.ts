@@ -1,4 +1,5 @@
-import { Entity, ObjectID, ObjectIdColumn, Column } from 'typeorm';
+import { Entity, ObjectID, ObjectIdColumn, Column, OneToMany } from 'typeorm';
+import { Journal } from './journal.entity';
 
 @Entity('users')
 export class User {
@@ -7,4 +8,6 @@ export class User {
   @Column() email: string;
   @Column() username: string;
   @Column() password: string;
+  @OneToMany(() => Journal, journal => journal.user)
+  journals: Journal[];
 }
