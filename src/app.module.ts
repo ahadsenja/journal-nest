@@ -7,7 +7,9 @@ import { AppService } from './app.service';
 import { UsersModule } from './features/users/users.module';
 import { JournalsModule } from './features/journals/journals.module';
 import { TransactionsModule } from './features/transactions/transactions.module';
+import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from './auth/constants';
 
 @Module({
   imports: [
@@ -21,9 +23,10 @@ import { JwtModule } from '@nestjs/jwt';
       synchronize: true,
       useUnifiedTopology: true
     }),
+    AuthModule,
     JwtModule.register({
-      secret: 'secret',
-      signOptions: {expiresIn: '1d'}
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '1d' }
     })
   ],
   controllers: [AppController],
