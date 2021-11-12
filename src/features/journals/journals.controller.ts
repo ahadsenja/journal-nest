@@ -1,42 +1,69 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
+import { Response } from 'express';
+
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { JournalDTO } from 'src/dto/journal.dto';
 import { Journal } from 'src/entity/journal.entity';
-import { IJournal } from 'src/interface/journal.interface';
 import { JournalsService } from './journals.service';
 
-@Controller('journals')
+@Controller('api/v1/')
 export class JournalsController {
 
   constructor(private journalService: JournalsService) { }
 
-  @Get()
-  async findAll(): Promise<Journal[]> {
+  // Find all journals
+  @UseGuards(JwtAuthGuard)
+  @Get('journals')
+  async findAll(@Res() res: Response): Promise<Journal[]> {
     const journals = await this.journalService.findAll();
-    return journals;
+    res.send({
+      data: journals
+    })
+    return;
   }
 
-  @Get(':id')
-  async GetById(@Param('id') id: string): Promise<Journal> {
+  // Find journal by id
+  @UseGuards(JwtAuthGuard)
+  @Get('journals/:id')
+  async GetById(@Param('id') id: string, @Res() res: Response): Promise<Journal> {
     const journal = await this.journalService.findById(id);
-    return journal;
+    res.send({
+      data: journal
+    });
+    return;
   }
 
-  @Post()
-  async createJournal(@Body() payload: JournalDTO): Promise<Journal> {
+  // Create new journal
+  @UseGuards(JwtAuthGuard)
+  @Post('journals')
+  async createJournal(@Body() payload: JournalDTO, @Res() res: Response): Promise<Journal> {
     const journal = await this.journalService.create(payload);
-    return journal;
+    res.send({
+      data: journal
+    });
+    return;
   }
 
-  @Put(':id')
-  async updateJournal(@Param('id') id: string, @Body() payload: JournalDTO): Promise<Journal> {
+  // Update journal
+  @UseGuards(JwtAuthGuard)
+  @Put('journals/:id')
+  async updateJournal(@Param('id') id: string, @Body() payload: JournalDTO, @Res() res: Response): Promise<Journal> {
     const journal = await this.journalService.update(id, payload);
-    return journal;
+    res.send({
+      data: journal
+    });
+    return;
   }
 
-  @Delete(':id')
-  async deleteJournal(@Param('id') id: string): Promise<Journal> {
+  // Delete journal
+  @UseGuards(JwtAuthGuard)
+  @Delete('journals/:id')
+  async deleteJournal(@Param('id') id: string, @Res() res: Response): Promise<Journal> {
     const journal = await this.journalService.delete(id);
-    return journal;
+    res.send({
+      data: journal
+    });
+    return;
   }
 
 }
