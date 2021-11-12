@@ -1,4 +1,5 @@
-import { Column, Entity, ObjectID, ObjectIdColumn } from "typeorm";
+import { Column, Entity, ManyToOne, ObjectID, ObjectIdColumn } from "typeorm";
+import { Journal } from "./journal.entity";
 
 @Entity('transactions')
 export class Transaction {
@@ -7,4 +8,7 @@ export class Transaction {
   @Column() description: string;
   @Column() debit: number;
   @Column() credit: number;
+  @ManyToOne(() => Journal, journal => journal.transactions)
+  journals: Journal;
+  @Column() journalId: string;
 }
