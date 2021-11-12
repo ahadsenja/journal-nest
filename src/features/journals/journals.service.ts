@@ -15,11 +15,13 @@ export class JournalsService {
     private readonly journalRepository: MongoRepository<Journal>
   ) { }
 
+  // Find all journals
   async findAll(): Promise<Journal[]> {
     const journals = this.journalRepository.find();
     return journals;
   }
 
+  // Find journal by id
   async findById(id: string): Promise<Journal> {
     const journal = ObjectId.isValid(id) && this.journalRepository.findOne(id);
     if (!journal) {
@@ -28,11 +30,13 @@ export class JournalsService {
     return journal;
   }
 
+  // Create new journal
   async create(journalObject: IJournal): Promise<Journal> {
     const journal = this.journalRepository.save(journalObject);
     return journal;
   }
 
+  // Update journal
   async update(id: string, journalObject: IJournal): Promise<Journal> {
     const journal = ObjectId.isValid(id) && this.journalRepository.findOne(id);
     if (!journal) {
@@ -42,6 +46,7 @@ export class JournalsService {
     return journal;
   }
 
+  // Delete journal
   async delete(id: string): Promise<Journal> {
     const journal = ObjectId.isValid(id) && this.journalRepository.findOne(id);
     if (!journal) {
